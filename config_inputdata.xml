@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <inputdata>
   <!-- server precidence is order in this file.  Highest preference at top -->
   <!-- If the client doesn't have the protocol it will be skipped -->
@@ -15,25 +14,24 @@
   </server>
 
   <server>
+    <protocol>svn</protocol>
+    <address>https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata</address>
+  </server>
+
+  <server>
     <protocol>wget</protocol>
     <address>ftp://ftp.cgd.ucar.edu/cesm/inputdata/</address>
     <user>anonymous</user>
     <password>user@example.edu</password>
     <checksum>../inputdata_checksum.dat</checksum>
   </server>
-
   <server>
     <comment> ftp requires the python package ftplib </comment>
     <protocol>ftp</protocol>
-    <address>ftp.cgd.ucar.edu/cesm/inputdata</address>
+    <address>ftp.cgd.ucar.edu/cesm/inputdata/</address>
     <user>anonymous</user>
     <password>user@example.edu</password>
     <checksum>../inputdata_checksum.dat</checksum>
-  </server>
-
-  <server>
-    <protocol>svn</protocol>
-    <address>https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata</address>
   </server>
 
   <server CLM_USRDAT_NAME="NEON">
@@ -44,16 +42,5 @@
     <!-- expected format is pathtofile,YYYY-MM-DD HH:MM:SS -->
     <!-- one per line where the date stamp indicates the last modification time of the file -->
     <inventory>../listing.csv</inventory>
-
   </server>
-  <server CLM_USRDAT_NAME="NEON.PRISM">
-    <comment> NEON Tower data for datm </comment>
-    <protocol>wget</protocol>
-    <address>https://storage.neonscience.org/neon-ncar/NEON/</address>
-    <!-- inventory is a CSV list of available data files and the valid date for each -->
-    <!-- expected format is pathtofile,YYYY-MM-DD HH:MM:SS -->
-    <!-- one per line where the date stamp indicates the last modification time of the file -->
-    <inventory>../listing.csv</inventory>
-  </server>
-
 </inputdata>
