@@ -76,7 +76,57 @@ This allows using a different mpirun command to launch unit tests
     <value MACH="zeus">(login[1,2]-ib|n[0-9][0-9][0-9]-ib)</value>
   </NODENAME_REGEX>    
 
-
+  <machine MACH="gadi">
+    <DESC>
+      GADI environment for CESM w/ Intel compilers, os is Linux, 48 pes/node, batch system is PBSPro
+    </DESC>
+    <OS>LINUX</OS>
+    <COMPILERS>intel</COMPILERS>
+    <MPILIBS>openmpi</MPILIBS>
+    <CIME_OUTPUT_ROOT>/scratch/$ENV{PROJECT}/$ENV{USER}/cime/scratch</CIME_OUTPUT_ROOT>
+    <DIN_LOC_ROOT>/g/data/$ENV{PROJECT}/cime/inputdata</DIN_LOC_ROOT>
+    <DIN_LOC_ROOT_CLMFORC>$DIN_LOC_ROOT/atm/datm7</DIN_LOC_ROOT_CLMFORC>
+    <DOUT_S_ROOT>/scratch/$ENV{PROJECT}/$ENV{USER}/cime/archive/$CASE</DOUT_S_ROOT>
+    <GMAKE>make</GMAKE>
+    <GMAKE_J>8</GMAKE_J>
+    <BATCH_SYSTEM>pbs</BATCH_SYSTEM>
+    <SUPPORTED_BY>accessnri</SUPPORTED_BY>
+    <MAX_TASKS_PER_NODE>48</MAX_TASKS_PER_NODE>
+    <MAX_MPITASKS_PER_NODE>48</MAX_MPITASKS_PER_NODE>
+    <PROJECT_REQUIRED>TRUE</PROJECT_REQUIRED>
+    <mpirun mpilib="openmpi">
+      <executable>mpirun</executable>
+      <arguments>
+        <arg name="task_count">-np {{ total_tasks }}</arg>
+      </arguments>
+    </mpirun>
+    <module_system type="module">
+      <init_path lang="sh">/etc/profile.d/modules.sh</init_path>
+      <init_path lang="csh">/etc/profile.d/modules.sh</init_path>
+      <init_path lang="python">/opt/Modules/v4.3.0/init/python.py</init_path>
+      <cmd_path lang="sh">module</cmd_path>
+      <cmd_path lang="csh">module</cmd_path>
+      <cmd_path lang="python">/opt/Modules/v4.3.0/bin/modulecmd python</cmd_path>
+      <modules>
+        <command name="purge"></command>
+        <command name="load">openmpi</command>
+        <command name="load">intel-compiler</command>
+        <command name="load">intel-mkl</command>
+        <command name="load">netcdf</command>
+        <command name="load">pnetcdf</command>
+        <command name="load">python3-as-python</command>
+      </modules>
+    </module_system>
+    <environment_variables>
+      <env name="NETCDF_PATH">$ENV{NETCDF_BASE}</env>
+      <env name="PKG_CONFIG_PATH">$ENV{PKG_CONFIG_PATH}:$ENV{NETCDF_BASE}/lib/Intel/pkgconfig</env>
+      <env name="ESMFMKFILE">/scratch/tm70/mrd599/esmf-8.3.0/lib/libg/Linux.intel.x86_64_medium.openmpi.default/esmf.mk</env>
+      <!-- <env name="ESMFMKFILE">/g/data/tm70/kr4383/esmf_build/esmf-8.3.0/lib/libg/Linux.intel.x86_64_medium.intelmpi.default/esmf.mk</env> -->
+    </environment_variables>
+    <resource_limits>
+      <resource name="RLIMIT_STACK">-1</resource>
+    </resource_limits>
+  </machine>
 
   <default_run_suffix>
     <default_run_exe>${EXEROOT}/cesm.exe </default_run_exe>
